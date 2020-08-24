@@ -1,15 +1,39 @@
-## Put comments here that give an overall description of what your
-## functions do
+## This code calculates the costly matrix inverse operation and stores
+## it for quick reference
 
-## Write a short comment describing this function
+## Calculates the inverse and stores it in cache.
 
 makeCacheMatrix <- function(x = matrix()) {
-
+  M <- NULL
+  setM <- function(y) {
+    x <<- y
+    M <<- NULL
+  }
+  getM <- function() x 
+  setC <- function(inverse) M <<- inverse
+  getC <- function() M
+  list(setM = setM,
+       getM = getM,
+       setC = setC,
+       getC = getC)
 }
 
 
-## Write a short comment describing this function
+## Checks if inverse has been calculated and retrieves it from cache.
+## If not, calculates the inverse.
 
 cacheSolve <- function(x, ...) {
-        ## Return a matrix that is the inverse of 'x'
+  M <- x$getC()
+  
+  if (!is.null(M)) {
+    message("Cached Matrix.")
+    return(M)
+  }
+
+  else {
+    N <- x$getM()
+    M <- solve(N, ...)
+    x$setC(M)
+    return(M)
+  }
 }
