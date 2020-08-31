@@ -4,18 +4,23 @@
 ## Calculates the inverse and stores it in cache.
 
 makeCacheMatrix <- function(x = matrix()) {
+  ## Initializing
   M <- NULL
-  setM <- function(y) {
+  ## Function to set the Matrix
+  setMat <- function(y) {
     x <<- y
     M <<- NULL
   }
-  getM <- function() x 
-  setC <- function(inverse) M <<- inverse
-  getC <- function() M
-  list(setM = setM,
-       getM = getM,
-       setC = setC,
-       getC = getC)
+  ## Function to get the Matrix
+  getMat <- function() x
+  ## Function to set the Inverse
+  setInv <- function(inverse) M <<- inverse
+  ## function to get the Inverse
+  getInv <- function() M
+  list(setMat = setMat,
+       getMat = getMat,
+       setInv = setInv,
+       getInv = getInv)
 }
 
 
@@ -23,17 +28,20 @@ makeCacheMatrix <- function(x = matrix()) {
 ## If not, calculates the inverse.
 
 cacheSolve <- function(x, ...) {
-  M <- x$getC()
+  ## Return Inverse(x)
+  M <- x$getInv()
   
+  ## Return cached inverse, if it exists
   if (!is.null(M)) {
     message("Cached Matrix.")
     return(M)
   }
 
+  ## Else, calculate inverse
   else {
-    N <- x$getM()
+    N <- x$getMat()
     M <- solve(N, ...)
-    x$setC(M)
+    x$setInv(M)
     return(M)
   }
 }
